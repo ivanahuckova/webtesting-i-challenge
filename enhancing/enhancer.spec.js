@@ -10,6 +10,9 @@ const itemEnhancementIsLargerThan20 = { name: 'item', durability: 90, enhancemen
 const itemDurabilityIsLargerThan100 = { name: 'item', durability: 110, enhancement: 19 };
 
 const correctItem = { name: 'item', durability: 80, enhancement: 10 };
+const correctItemWithEnhancement10 = { name: 'item', durability: 80, enhancement: 10 };
+const correctItemWithEnhancement15 = { name: 'item', durability: 80, enhancement: 15 };
+const correctItemWithEnhancement17 = { name: 'item', durability: 80, enhancement: 17 };
 const correctItemWithEnhancement20 = { name: 'item', durability: 80, enhancement: 20 };
 
 describe('enhancers module', () => {
@@ -50,6 +53,46 @@ describe('enhancers module', () => {
     it('returns item object with enhancement 20 if previous state is 20', () => {
       expect(succeed(correctItemWithEnhancement20)).toEqual({ name: 'item', durability: 80, enhancement: 20 });
     });
+    //err
+    it('throws error if item is not an object', () => {
+      expect(() => succeed(itemIsNotObject).toThrow());
+    });
+    it('throws error if item does not have name, enhancement or durability', () => {
+      expect(() => succeed(itemDoesNotHaveReqKeys).toThrow());
+    });
+    it('throws error if item name is not a string', () => {
+      expect(() => succeed(itemNameIsNotString).toThrow());
+    });
+    it('throws error if item durability is not a number', () => {
+      expect(() => succeed(itemDurabilityIsNotNumber).toThrow());
+    });
+    it('throws error if item enhancement is not a number', () => {
+      expect(() => succeed(itemEnhancementIsNotNumber).toThrow());
+    });
+    it('throws error if item durability is larger than 100', () => {
+      expect(() => succeed(itemDurabilityIsLargerThan100).toThrow());
+    });
+    it('throws error if item enhancement is larger than 20', () => {
+      expect(() => succeed(itemEnhancementIsLargerThan20).toThrow());
+    });
+  });
+
+  //Fail function
+  describe('fail function', () => {
+    it('returns decreased durability by 5 if enhancement is less than 15', () => {
+      expect(fail(correctItemWithEnhancement10)).toEqual({ name: 'item', durability: 75, enhancement: 10 });
+    });
+    it('returns decreased durability by 10 if enhancement is more than 15', () => {
+      expect(fail(correctItemWithEnhancement15)).toEqual({ name: 'item', durability: 70, enhancement: 15 });
+    });
+    it('returns decreased durability by 10 and enhancement by 1 if enhancement is more than 16', () => {
+      expect(fail(correctItemWithEnhancement17)).toEqual({ name: 'item', durability: 70, enhancement: 16 });
+    });
+
+    it('returns decreased durability by 10 and enhancement by 1 if enhancement 20', () => {
+      expect(fail(correctItemWithEnhancement20)).toEqual({ name: 'item', durability: 70, enhancement: 19 });
+    });
+
     //err
     it('throws error if item is not an object', () => {
       expect(() => succeed(itemIsNotObject).toThrow());
