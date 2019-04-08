@@ -66,10 +66,10 @@ function checkItem(item) {
   if (typeof item.name !== 'string') {
     throw new Error('string required for item name');
   }
-  if (typeof item.enhancement !== 'number') {
+  if (typeof item.enhancement !== 'number' || isNaN(item.enhancement)) {
     throw new Error('number required for item enhancement');
   }
-  if (typeof item.durability !== 'number') {
+  if (typeof item.durability !== 'number' || isNaN(item.durability)) {
     throw new Error('number required for item durability');
   }
   if (!(typeof item.name && typeof item.durability && typeof item.enhancement)) {
