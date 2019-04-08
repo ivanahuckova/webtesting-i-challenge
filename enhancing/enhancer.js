@@ -32,7 +32,6 @@ function succeed(item) {
   if (item.enhancement === 20) {
     return { ...item };
   }
-
   const { enhancement } = item;
   newEnhancement = enhancement + 1;
   return { ...item, enhancement: newEnhancement };
