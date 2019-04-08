@@ -19,9 +19,6 @@ function succeed(item) {
 }
 
 //FAIL FUNCTION
-/*If the item's enhancement is less than 15, the durability of the item is decreased by 5.
-If the item's enhancement is 15 or more, the durability of the item is decreased by 10.
-If the item's enhancement level is greater than 16, the enhancement level decreases by 1 (17 goes down to 16, 18 goes down to 17). */
 function fail(item) {
   checkItem(item);
   if (item.enhancement < 15) {
@@ -44,11 +41,20 @@ function fail(item) {
 //REPAIR FUNCTION
 function repair(item) {
   checkItem(item);
-
   return { ...item, durability: 100 };
 }
 
+//GET FUNCTION
 function get(item) {
+  checkItem(item);
+  if (item.enhancement === 0) {
+    return { ...item };
+  }
+  if (item.enhancement > 0) {
+    let newName = `[+${item.enhancement}] ${item.name}`;
+    return { ...item, name: newName };
+  }
+
   return { ...item };
 }
 
@@ -66,7 +72,7 @@ function checkItem(item) {
   if (typeof item.durability !== 'number') {
     throw new Error('number required for item durability');
   }
-  if (!(item.name && item.durability && item.enhancement)) {
+  if (!(typeof item.name && typeof item.durability && typeof item.enhancement)) {
     throw new Error('item name, durability and enhancement are required');
   }
   if (item.durability > 100) {
